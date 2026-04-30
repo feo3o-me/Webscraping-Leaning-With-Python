@@ -4,7 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.firefox.options import Options
 import time
-
+import pandas as pd
+ 
 options = Options()
 options.add_argument("--headless")
 
@@ -18,7 +19,6 @@ WebDriverWait(driver,  10).until(
 )
 
 data = []
-
 countries = driver.find_elements(By.CSS_SELECTOR, ".col-md-4")
 
 for country in countries:
@@ -31,6 +31,11 @@ for country in countries:
         "capital" : capital,
         "population" : population
         })
+    
+df = pd.DataFrame(data)
+df.to_csv("countries.csv", index=False)
+print("Files saved")
 
 print(data)
+
 driver.quit()
